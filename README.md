@@ -1,123 +1,132 @@
-# 🛍️ Multi-Cloud E-commerce Platform (AWS)  
-**A scalable, secure e-commerce app built with Terraform, Kubernetes, and DevOps automation.**
+# Cloud Resume Challenge: A Serverless Web Application
+
+![CI/CD Pipeline Status](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/deploy.yml/badge.svg)
+
+This project is a comprehensive, cloud-native resume website built on Amazon Web Services (AWS). It goes beyond a simple static site by incorporating a serverless backend, Infrastructure as Code (IaC), and a fully automated CI/CD pipeline. The goal is to demonstrate practical, hands-on expertise in modern cloud engineering and DevOps principles.
+
+**Live Demo:** [**www.your-domain.com**](https://www.your-domain.com) 👈 *(Replace with your actual domain)*
 
 ---
 
-## 🧭 Project Overview  
-This project aims to build a **multi-cloud e-commerce platform** that demonstrates:  
-- Cloud infrastructure design with Terraform.  
-- Containerized microservices using Docker and Kubernetes (EKS).  
-- CI/CD pipelines with GitHub Actions.  
-- Security, monitoring, and cost optimization best practices.
+## Architectural Diagram
 
-The goal is to replicate real-world cloud architecture challenges while showcasing problem-solving skills and technical depth.
+The entire infrastructure is provisioned and managed by Terraform. The application follows a serverless, event-driven architecture designed for high availability, scalability, and cost-efficiency.
 
----
-
-## 🛠️ Tech Stack  
-| Component          | Tools/Technologies Used                             |
-|-------------------|-----------------------------------------------------|
-| **Cloud Provider**   | AWS (EC2, RDS, S3, VPC, EKS)                        |
-| **IaC**            | Terraform                                           |
-| **Containerization** | Docker, Kubernetes (EKS)                           |
-| **CI/CD**          | GitHub Actions                                      |
-| **Frontend**       | React (optional)                                    |
-| **Backend**        | Node.js/Python (Microservices)                     |
-| **Database**       | RDS (PostgreSQL)                                    |
-| **Monitoring**     | AWS CloudWatch, Prometheus + Grafana               |
-
----
-
-## 🗺️ Roadmap  
-This project is in progress. Here's what’s been completed and planned:
-
-### ✅ Completed So Far  
-- [x] Set up AWS Free Tier account and configured CLI.  
-- [x] Created basic Terraform script for VPC and subnet.  
-- [x] Structured GitHub repository with directories for IaC, app code, and documentation.
-
-### 🚀 Next Steps  
-1. **Phase 1: Infrastructure as Code (Terraform)**  
-   - Create RDS instance with backups.  
-   - Add S3 bucket for static assets (e.g., product images).  
-
-2. **Phase 2: Application Development**  
-   - Build React frontend with product catalog and checkout flow.  
-   - Implement Node.js microservices for order processing and cart management.  
-
-3. **Phase 3: Containerization & Orchestration**  
-   - Dockerize app and deploy to EKS cluster.  
-
-4. **Phase 4: DevOps Automation**  
-   - Set up GitHub Actions for CI/CD pipeline.  
-
-5. **Phase 5: Monitoring & Security**  
-   - Enable AWS CloudWatch for logs and metrics.  
-   - Implement IAM roles, encryption, and WAF rules.
+```
+                               +-----------------+
+                               |      User       |
+                               +-----------------+
+                                       |
+                                       | HTTPS (your-domain.com)
+                                       v
++-----------------------------------------------------------------------+
+| AWS Cloud                                                             |
+|                                                                       |
+|  +------------------+      +------------------+      +---------------+  |
+|  |    Route 53      |----->|   CloudFront     |----->|  S3 Bucket    |  |
+|  | (DNS Management) |      | (CDN for speed   |      | (Static HTML, |  |
+|  +------------------+      |  and security)   |      |  CSS, JS)     |  |
+|                               +------------------+      +---------------+  |
+|                                       |                                 |
+|                                       | API Call (/api/visit)           |
+|                                       v                                 |
+|                               +------------------+                      |
+|                               |  API Gateway     |                      |
+|                               | (REST API Endpoint)|                      |
+|                               +------------------+                      |
+|                                       |                                 |
+|                                       v                                 |
+|                               +------------------+                      |
+|                               |  Lambda Function |                      |
+|                               | (Python/Node.js)|                      |
+|                               +------------------+                      |
+|                                       |                                 |
+|                                       | Read/Write                      |
+|                                       v                                 |
+|                               +------------------+                      |
+|                               |  DynamoDB Table  |                      |
+|                               | (Visitor Count)  |                      |
+|                               +------------------+                      |
+|                                                                       |
++-----------------------------------------------------------------------+
+```
 
 ---
 
-## 🛠️ How to Use This Repo  
-> ⚠️ **Important**: This project is a personal learning initiative. For testing, ensure you’re using AWS Free Tier (or Azure/GCP if preferred) to avoid costs.
+## Key Features & Skills Demonstrated
 
-### 📦 Prerequisites  
-- [AWS CLI](https://aws.amazon.com/cli/) configured with your account.  
-- [Terraform](https://learn.hashicorp.com/terraform/install/apt) installed.  
-- [Docker](https://www.docker.com/) and `kubectl` for Kubernetes.  
-- A GitHub account (for CI/CD).
+This project showcases proficiency across several core competencies required for a Cloud Engineer role:
 
-### 🧪 Local Development (Optional)  
-1. Clone the repo:  
-   ```bash
-   git clone https://github.com/element665/Cloud_Project.git
-   cd multi-cloud-ecommerce-platform
-   ```
-2. Run Terraform to create infrastructure (see `/terraform/README.md` for steps).  
-3. Use Docker to test app components locally (requires `docker-compose.yml`).  
-
----
-
-## 📁 Key Components  
-- **`/terraform`** – Infrastructure as code (VPC, RDS, S3).  
-- **`/app/frontend`** – React-based product catalog (WIP).  
-- **`/app/backend`** – Node.js microservices for order/cart logic (WIP).  
-- **`/k8s`** – Kubernetes manifests for deploying to EKS (WIP).  
-- **`/ci-cd`** – GitHub Actions workflows for CI/CD (WIP).  
-- **`/docs`** – Architecture diagrams and technical documentation.
+*   **Serverless Computing:** The backend logic for the visitor counter is handled by an **AWS Lambda** function, eliminating the need for server management and enabling pay-per-use execution.
+*   **Infrastructure as Code (IaC):** The entire cloud infrastructure is defined and managed using **Terraform**. This ensures the environment is repeatable, version-controlled, and can be deployed or destroyed with a single command.
+*   **CI/CD Automation:** A complete CI/CD pipeline is built with **GitHub Actions**. Every `git push` to the `main` branch automatically triggers a workflow that:
+    1.  Sets up the environment and authenticates with AWS.
+    2.  Validates and applies the Terraform infrastructure changes.
+    3.  Builds and packages the backend Lambda function.
+    4.  Deploys the frontend assets to the S3 bucket.
+    5.  Invalidates the CloudFront cache to ensure users see the latest version.
+*   **Cloud Storage & Content Delivery:** The static website (HTML, CSS, JS) is hosted in an **AWS S3** bucket. An **AWS CloudFront** distribution sits in front of the S3 bucket to provide low-latency content delivery to users globally via its edge network.
+*   **API Development & Management:** An **API Gateway** provides a stable, secure RESTful endpoint for the frontend to communicate with the Lambda function.
+*   **Database Management:** A **DynamoDB** NoSQL database is used to store and retrieve the visitor count, demonstrating experience with serverless databases.
+*   **Networking & DNS:** **Amazon Route 53** is used to manage the custom domain, routing traffic to the CloudFront distribution.
+*   **Security Best Practices:**
+    *   **IAM Roles & Policies:** The Principle of Least Privilege is applied. The Lambda function has a specific IAM role with fine-grained permissions to only access the DynamoDB table it needs.
+    *   **HTTPS:** An SSL/TLS certificate is provisioned via **AWS Certificate Manager (ACM)** and enforced by the CloudFront distribution, ensuring all traffic is encrypted.
+    *   **Secure Credential Management:** AWS credentials are not hard-coded but are stored securely as GitHub Secrets and accessed via OIDC.
 
 ---
 
-## 🚧 Challenges Faced  
-- **Terraform State Management**: Learned how to handle state files and avoid conflicts.  
-- **Kubernetes Networking**: Debugging issues with service discovery in EKS (still a work in progress).  
-- **Cost Optimization**: Exploring spot instances and auto-scaling to reduce AWS bill.
+## Technology Stack
+
+*   **Cloud Provider:** AWS
+*   **IaC:** Terraform
+*   **CI/CD:** GitHub Actions
+*   **Frontend:** HTML, CSS, JavaScript
+*   **Backend:** Python (with Boto3)
+*   **Services:**
+    *   Amazon S3
+    *   Amazon CloudFront
+    *   Amazon Lambda
+    *   Amazon API Gateway
+    *   Amazon DynamoDB
+    *   Amazon Route 53
+    *   AWS Certificate Manager (ACM)
+    *   AWS IAM
 
 ---
 
-## 📌 Contributing  
-This project is a personal initiative, but contributions are welcome!  
-- Fork the repo and submit PRs for bug fixes or feature additions.  
-- Add your thoughts to `/docs/notes.md` if you’re working on the project.
+## Getting Started
+
+### Prerequisites
+
+*   An AWS Account
+*   A registered domain name
+*   Terraform installed
+*   GitHub Account
+
+### Deployment Steps
+
+1.  **Clone the repository:**
+    ```sh
+    git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
+    cd YOUR_REPO
+    ```
+2.  **Configure GitHub Secrets:**
+    *   Set up OIDC between your GitHub repository and your AWS account.
+    *   Add your AWS Role ARN as a secret named `AWS_ROLE_ARN`.
+3.  **Configure Terraform Variables:**
+    *   In the `terraform/` directory, create a `terraform.tfvars` file.
+    *   Add your domain name: `domain_name = "your-domain.com"`
+4.  **Push to `main`:**
+    *   Commit and push your changes to the `main` branch. The GitHub Actions workflow will automatically provision the infrastructure and deploy the application.
 
 ---
 
-## 📜 License  
-This project is open-source and released under the **MIT License**. See `LICENSE` file for details.
+## Future Improvements
 
----
+This project provides a solid foundation. Potential future enhancements include:
 
-## 📩 Contact  
-For questions, feedback, or collaboration:  
-- Email: element665@gmail.com  
-- Portfolio: peterimkus.com  
-- LinkedIn: https://www.linkedin.com/in/peterrimkus/
-
----
-
-### 🔗 Useful Links  
-- [AWS Free Tier](https://aws.amazon.com/free/)  
-- [Terraform Docs](https://developer.hashicorp.com/terraform)  
-- [EKS Getting Started Guide](https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html)  
-- [GitHub Actions Docs](https://docs.github.com/en/actions)
-
----
+*   **Add Unit & Integration Tests:** Implement Pytest for the Lambda function and integrate it into the CI/CD pipeline to run on every commit.
+*   **Implement Observability:** Add structured logging to the Lambda function and create a CloudWatch Dashboard to monitor API requests, errors, and function performance.
+*   **Enhance Security:** Implement a Web Application Firewall (WAF) on the CloudFront distribution to protect against common web exploits.
+*   **Cost Monitoring:** Set up AWS Budgets and billing alarms to monitor and control costs.

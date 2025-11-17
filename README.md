@@ -24,7 +24,7 @@ The goal is to replicate real-world cloud architecture challenges while showcasi
 | **Frontend**       | React (optional)                                    |
 | **Backend**        | Node.js/Python (Microservices)                     |
 | **Database**       | RDS (PostgreSQL)                                    |
-| **Monitoring**     | AWS CloudWatch, Prometheus + Grafana (optional)   |
+| **Monitoring**     | AWS CloudWatch, Prometheus + Grafana               |
 
 ---
 

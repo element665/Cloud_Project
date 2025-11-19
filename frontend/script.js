@@ -1,5 +1,19 @@
+const cards = document.querySelectorAll('.card');
+const apiUrl = '/api/visit'; // This path will be routed by CloudFront
+
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+});
+
+cards.forEach(card => {
+    observer.observe(card);
+});
+
 document.addEventListener('DOMContentLoaded', () => {
-    const apiUrl = '/api/visit'; // This path will be routed by CloudFront
     const counterElement = document.getElementById('counter');
 
     fetch(apiUrl)
@@ -17,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         })
         .catch(error => {
-            console.error('Error fetching visitor count:', error);
-            counterElement.textContent = 'N/A';
+            console.error('Could not fetch visitor count:', error);
+            counterElement.textContent = 'Error';
         });
 });

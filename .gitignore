@@ -12,3 +12,8 @@ crash.log
 *.tfplan
 
 GEMINI.md
+\n# Terraform files
+terraform/terraform.tfvars
+terraform/.terraform
+terraform/*.tfstate
+terraform/*.tfstate.*

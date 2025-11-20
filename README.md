@@ -1,10 +1,10 @@
 # Cloud Resume Challenge: A Serverless Web Application
 
-![CI/CD Pipeline Status](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/deploy.yml/badge.svg)
+![CI/CD Pipeline Status](https://github.com/element665/Cloud_Project/actions/workflows/deploy.yml/badge.svg)
 
 This project is a comprehensive, cloud-native resume website built on Amazon Web Services (AWS). It goes beyond a simple static site by incorporating a serverless backend, Infrastructure as Code (IaC), and a fully automated CI/CD pipeline. The goal is to demonstrate practical, hands-on expertise in modern cloud engineering and DevOps principles.
 
-**Live Demo:** [**www.your-domain.com**](https://www.your-domain.com) 👈 *(Replace with your actual domain)*
+**Live Demo:** [**www.element665.site**](https://www.element665.site)
 
 ---
 
@@ -17,28 +17,28 @@ The entire infrastructure is provisioned and managed by Terraform. The applicati
                                |      User       |
                                +-----------------+
                                        |
-                                       | HTTPS (your-domain.com)
+                                       | HTTPS (element665.site)
                                        v
-+-----------------------------------------------------------------------+
-| AWS Cloud                                                             |
-|                                                                       |
++-------------------------------------------------------------------------+
+|                                   AWS Cloud                             |
+|                                                                         |
 |  +------------------+      +------------------+      +---------------+  |
 |  |    Route 53      |----->|   CloudFront     |----->|  S3 Bucket    |  |
 |  | (DNS Management) |      | (CDN for speed   |      | (Static HTML, |  |
 |  +------------------+      |  and security)   |      |  CSS, JS)     |  |
-|                               +------------------+      +---------------+  |
+|                            +------------------+      +---------------+  |
 |                                       |                                 |
 |                                       | API Call (/api/visit)           |
 |                                       v                                 |
-|                               +------------------+                      |
-|                               |  API Gateway     |                      |
-|                               | (REST API Endpoint)|                      |
-|                               +------------------+                      |
+|                               +--------------------+                    |
+|                               |  API Gateway       |                    |
+|                               | (REST API Endpoint)|                    |
+|                               +--------------------+                    |
 |                                       |                                 |
 |                                       v                                 |
 |                               +------------------+                      |
 |                               |  Lambda Function |                      |
-|                               | (Python/Node.js)|                      |
+|                               | (Python/Node.js) |                      |
 |                               +------------------+                      |
 |                                       |                                 |
 |                                       | Read/Write                      |
@@ -47,8 +47,8 @@ The entire infrastructure is provisioned and managed by Terraform. The applicati
 |                               |  DynamoDB Table  |                      |
 |                               | (Visitor Count)  |                      |
 |                               +------------------+                      |
-|                                                                       |
-+-----------------------------------------------------------------------+
+|                                                                         |
++-------------------------------------------------------------------------+
 ```
 
 ---

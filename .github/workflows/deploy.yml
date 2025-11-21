@@ -33,6 +33,12 @@ jobs:
         role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
         aws-region: eu-north-1
 
+    - name: Create tfvars file
+      run: |
+        echo "domain_name=\"${{ secrets.DOMAIN_NAME }}\"" > terraform/terraform.tfvars
+        echo "project_name=\"cloud-resume-challenge\"" >> terraform/terraform.tfvars
+        echo "aws_region=\"eu-north-1\"" >> terraform/terraform.tfvars
+      
     - name: Terraform Init
       id: init
       run: terraform init

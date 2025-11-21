@@ -73,7 +73,7 @@ resource "aws_s3_bucket_policy" "frontend_bucket_policy" {
 
 # Get the hosted zone for the domain
 data "aws_route53_zone" "main" {
-  name         = "${var.domain_name}."
+  name         = "element665.site."
   private_zone = false
 }
 

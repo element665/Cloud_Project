@@ -132,19 +132,6 @@ resource "aws_route53_record" "www" {
   }
 }
 
-resource "aws_route53_record" "www" {
-  zone_id = data.aws_route53_zone.main.zone_id
-  name    = var.domain_name
-  type    = "A"
-
-  alias {
-    name                   = aws_cloudfront_distribution.s3_distribution.domain_name
-    zone_id                = aws_cloudfront_distribution.s3_distribution.hosted_zone_id
-    evaluate_target_health = false
-  }
-}
-
-# API Gateway
 resource "aws_api_gateway_rest_api" "visitor_api" {
   name        = "${var.project_name}-visitor-api"
   description = "API Gateway for the visitor counter Lambda function"
@@ -203,9 +190,6 @@ resource "aws_lambda_permission" "apigw_lambda_permission" {
   # The "/*/*" suffix is to allow invocation from any method on any resource
   # within the API Gateway REST API. For more fine-grained control, you can
   # specify the exact resource path and method.
-  source_arn = "${aws_api_gateway_rest_api.visitor_api.execution_arn}/*/*"
-}
-
   source_arn = "${aws_api_gateway_rest_api.visitor_api.execution_arn}/*/*"
 }
 

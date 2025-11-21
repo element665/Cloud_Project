@@ -79,6 +79,7 @@ data "aws_route53_zone" "main" {
 
 # Request an ACM certificate for the domain
 resource "aws_acm_certificate" "cert" {
+  provider          = aws.us_east_1
   domain_name       = var.domain_name
   validation_method = "DNS"
   lifecycle {
@@ -88,6 +89,7 @@ resource "aws_acm_certificate" "cert" {
 
 # Create Route 53 record for ACM certificate validation
 resource "aws_route53_record" "cert_validation" {
+  provider = aws.us_east_1
   for_each = {
     for dvo in aws_acm_certificate.cert.domain_validation_options : dvo.domain_name => dvo
   }
@@ -101,6 +103,7 @@ resource "aws_route53_record" "cert_validation" {
 
 # Validate the ACM certificate
 resource "aws_acm_certificate_validation" "cert" {
+  provider                = aws.us_east_1
   certificate_arn         = aws_acm_certificate.cert.arn
   validation_record_fqdns = [for record in aws_route53_record.cert_validation : record.fqdn]
 }

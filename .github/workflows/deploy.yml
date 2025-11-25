@@ -51,5 +51,16 @@ jobs:
 
     - name: Terraform Apply
       id: apply
-      run: terraform apply -auto-approve
+      run: |
+        terraform apply -auto-approve
+        echo "S3_BUCKET_NAME=$(terraform output -raw s3_bucket_name)" >> $GITHUB_OUTPUT
+      working-directory: ./terraform
+
+    - name: Upload frontend to S3
+      run: aws s3 sync frontend/ s3://${{ steps.apply.outputs.S3_BUCKET_NAME }} --delete
+
+    - name: CloudFront Cache Invalidation
+      run: |
+        DISTRIBUTION_ID=$(terraform output -raw cloudfront_distribution_id)
+        aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths "/*"
       working-directory: ./terraform

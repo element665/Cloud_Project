@@ -41,7 +41,7 @@ jobs:
       
     - name: Terraform Init
       id: init
-      run: terraform init
+      run: terraform init -migrate-state=false
       working-directory: ./terraform
 
     - name: Terraform Validate

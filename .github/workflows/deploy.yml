@@ -57,8 +57,10 @@ jobs:
     - name: Get Terraform Outputs
       id: outputs
       run: |
-        echo "s3_bucket_name=$(terraform output -raw s3_bucket_name | tr -d '\r')" >> $GITHUB_OUTPUT
-        echo "cloudfront_distribution_id=$(terraform output -raw cloudfront_distribution_id | tr -d '\r')" >> $GITHUB_OUTPUT
+        S3_BUCKET=$(terraform output -raw s3_bucket_name)
+        CF_DIST_ID=$(terraform output -raw cloudfront_distribution_id)
+        echo "s3_bucket_name=$S3_BUCKET" >> $GITHUB_OUTPUT
+        echo "cloudfront_distribution_id=$CF_DIST_ID" >> $GITHUB_OUTPUT
       working-directory: ./terraform
 
     - name: Upload frontend to S3

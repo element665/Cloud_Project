@@ -1,3 +1,12 @@
+terraform {
+  backend "s3" {
+    # This bucket must be created manually before running terraform init
+    # It must be globally unique.
+    bucket = "element665-site-tfstate" 
+    key    = "cloud-resume-challenge/terraform.tfstate"
+    region = "eu-north-1"
+  }
+}
 
 resource "aws_lambda_function" "visitor_counter" {
   function_name = "${var.project_name}-visitor-counter"

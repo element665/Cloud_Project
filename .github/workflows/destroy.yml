@@ -1,0 +1,48 @@
+name: Destroy AWS Infrastructure
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: 'Type "cloud-resume-challenge" to confirm you want to destroy all resources.'
+        required: true
+
+jobs:
+  destroy:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.confirmation == 'cloud-resume-challenge'
+    
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 1.13.5
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+        aws-region: eu-north-1
+
+    - name: Create tfvars file for destroy
+      run: |
+        echo "domain_name=\"${{ secrets.DOMAIN_NAME }}\"" > terraform/terraform.tfvars
+        echo "project_name=\"cloud-resume-challenge\"" >> terraform/terraform.tfvars
+        echo "aws_region=\"eu-north-1\"" >> terraform/terraform.tfvars
+
+    - name: Terraform Init
+      id: init
+      run: terraform init
+      working-directory: ./terraform
+
+    - name: Terraform Destroy
+      id: destroy
+      run: terraform destroy -auto-approve
+      working-directory: ./terraform

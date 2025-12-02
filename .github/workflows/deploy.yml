@@ -41,7 +41,9 @@ jobs:
       
     - name: Terraform Init
       id: init
-      run: terraform init -input=false -reconfigure
+      run: |
+        rm -f terraform.tfstate
+        terraform init -input=false -reconfigure
       working-directory: ./terraform
 
     - name: Terraform Validate

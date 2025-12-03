@@ -56,16 +56,16 @@ jobs:
       run: terraform apply -auto-approve
       working-directory: ./terraform
 
-    - name: Get Terraform Outputs
-      id: tf_outputs
-      uses: cloud-actions/terraform-outputs@v1
-      with:
-        workingDirectory: ./terraform
+    - name: Get All Terraform Outputs as JSON
+      id: get_tf_outputs
+      run: |
+        echo "terraform_outputs=$(terraform output -json)" >> $GITHUB_OUTPUT
+      working-directory: ./terraform
 
     - name: Upload frontend to S3
-      run: aws s3 sync frontend/ s3://${{ steps.tf_outputs.outputs.s3_bucket_name }} --delete
+      run: aws s3 sync frontend/ s3://${{ fromJson(steps.get_tf_outputs.outputs.terraform_outputs).s3_bucket_name }} --delete
 
     - name: CloudFront Cache Invalidation
       run: |
-        aws cloudfront create-invalidation --distribution-id ${{ steps.tf_outputs.outputs.cloudfront_distribution_id }} --paths "/*"
+        aws cloudfront create-invalidation --distribution-id ${{ fromJson(steps.get_tf_outputs.outputs.terraform_outputs).cloudfront_distribution_id }} --paths "/*"
       working-directory: ./terraform

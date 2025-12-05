@@ -65,13 +65,9 @@ jobs:
         echo "CLOUDFRONT_DISTRIBUTION_ID=$(terraform output -raw cloudfront_distribution_id)" >> $GITHUB_ENV
 
     - name: Upload frontend to S3
-      env:
-        S3_BUCKET_NAME: ${{ steps.get_tf_outputs.outputs.S3_BUCKET_NAME }}
       run: aws s3 sync frontend/ s3://${{ env.S3_BUCKET_NAME }} --delete
 
     - name: CloudFront Cache Invalidation
-      env:
-        CLOUDFRONT_DISTRIBUTION_ID: ${{ steps.get_tf_outputs.outputs.CLOUDFRONT_DISTRIBUTION_ID }}
       run: |
         aws cloudfront create-invalidation --distribution-id ${{ env.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
       working-directory: ./terraform

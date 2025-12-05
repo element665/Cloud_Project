@@ -4,7 +4,7 @@
 
 This project is a comprehensive, cloud-native resume website built on Amazon Web Services (AWS). It goes beyond a simple static site by incorporating a serverless backend, Infrastructure as Code (IaC), and a fully automated CI/CD pipeline. The goal is to demonstrate practical, hands-on expertise in modern cloud engineering and DevOps principles.
 
-**Live Demo:** [**www.element665.site**](https://www.element665.site)
+**Live Demo:** [**www.element665.site**](https://www.resume.element665.site)
 
 ---
 
@@ -17,7 +17,7 @@ The entire infrastructure is provisioned and managed by Terraform. The applicati
                                |      User       |
                                +-----------------+
                                        |
-                                       | HTTPS (element665.site)
+                                       | HTTPS (resume.element665.site)
                                        v
 +-------------------------------------------------------------------------+
 |                                   AWS Cloud                             |
@@ -108,8 +108,8 @@ This project showcases proficiency across several core competencies required for
 
 1.  **Clone the repository:**
     ```sh
-    git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
-    cd YOUR_REPO
+    git clone https://github.com/element665/Cloud_Project.git
+    cd Cloud_Project
     ```
 2.  **Configure GitHub Secrets:**
     *   Set up OIDC between your GitHub repository and your AWS account.
@@ -117,7 +117,10 @@ This project showcases proficiency across several core competencies required for
 3.  **Configure Terraform Variables:**
     *   In the `terraform/` directory, create a `terraform.tfvars` file.
     *   Add your domain name: `domain_name = "your-domain.com"`
-4.  **Push to `main`:**
+4.  **Configure Backend S3 Bucket**
+    *   Create AWS S3 bucket to store terraform.tfstate remotely.
+    *   Name your backend AWS S3 bucket as stated in `main.tf`. Example: `element665-site-tfstate`     
+5.  **Push to `main`:**
     *   Commit and push your changes to the `main` branch. The GitHub Actions workflow will automatically provision the infrastructure and deploy the application.
 
 ---

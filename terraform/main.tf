@@ -251,10 +251,16 @@ resource "aws_api_gateway_deployment" "api_deployment" {
   ]
 
   rest_api_id = aws_api_gateway_rest_api.visitor_api.id
-  # We need to trigger a new deployment when the API definition changes.
-  # This can be done by using a hash of the API definition or by using the timestamp.
-  # For simplicity, we'll manually trigger it by changing this value if needed, or rely on implicit dependencies.
-  # For a production setup, consider using a mechanism to force new deployments on content changes.
+  
+  triggers = {
+    redeployment = sha1(jsonencode([
+      aws_api_gateway_resource.api_resource.id,
+      aws_api_gateway_resource.proxy_resource.id,
+      aws_api_gateway_method.proxy_method.id,
+      aws_api_gateway_integration.lambda_integration.id,
+    ]))
+  }
+
   lifecycle {
     create_before_destroy = true
   }

@@ -127,7 +127,9 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
   origin {
     origin_id   = "api-gateway"
-    domain_name = replace(aws_api_gateway_stage.prod.invoke_url, "https://", "")
+    domain_name = split("/", aws_api_gateway_stage.prod.invoke_url)[2]
+    origin_path = "/${aws_api_gateway_stage.prod.stage_name}"
+
     custom_origin_config {
       origin_protocol_policy = "https-only"
       http_port              = 80
@@ -214,9 +216,15 @@ resource "aws_api_gateway_rest_api" "visitor_api" {
   description = "API Gateway for the visitor counter Lambda function"
 }
 
-resource "aws_api_gateway_resource" "proxy_resource" {
+resource "aws_api_gateway_resource" "api_resource" {
   rest_api_id = aws_api_gateway_rest_api.visitor_api.id
   parent_id   = aws_api_gateway_rest_api.visitor_api.root_resource_id
+  path_part   = "api"
+}
+
+resource "aws_api_gateway_resource" "proxy_resource" {
+  rest_api_id = aws_api_gateway_rest_api.visitor_api.id
+  parent_id   = aws_api_gateway_resource.api_resource.id
   path_part   = "visit"
 }
 

@@ -125,6 +125,17 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     origin_access_control_id = aws_cloudfront_origin_access_control.default.id
   }
 
+  origin {
+    origin_id   = "api-gateway"
+    domain_name = replace(aws_api_gateway_stage.prod.invoke_url, "https://", "")
+    custom_origin_config {
+      origin_protocol_policy = "https-only"
+      http_port              = 80
+      https_port             = 443
+      origin_ssl_protocols   = ["TLSv1.2"]
+    }
+  }
+
   enabled             = true
   is_ipv6_enabled     = true
   comment             = "CloudFront distribution for static website"
@@ -146,6 +157,27 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
       query_string = false
       cookies {
         forward = "none"
+      }
+    }
+  }
+
+  ordered_cache_behavior {
+    path_pattern     = "/api/*"
+    target_origin_id = "api-gateway"
+
+    allowed_methods = ["GET", "HEAD"]
+    cached_methods  = ["GET", "HEAD"]
+
+    viewer_protocol_policy = "redirect-to-https"
+    compress               = true
+    min_ttl                = 0
+    default_ttl            = 0
+    max_ttl                = 0
+
+    forwarded_values {
+      query_string = true
+      cookies {
+        forward = "all"
       }
     }
   }

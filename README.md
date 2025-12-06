@@ -4,7 +4,7 @@
 
 This project is a comprehensive, cloud-native resume website built on Amazon Web Services (AWS). It goes beyond a simple static site by incorporating a serverless backend, Infrastructure as Code (IaC), and a fully automated CI/CD pipeline. The goal is to demonstrate practical, hands-on expertise in modern cloud engineering and DevOps principles.
 
-**Live Demo:** [**www.element665.site**](https://www.resume.element665.site)
+**Live Demo:** [**resume.element665.site**](https://resume.element665.site)
 
 ---
 

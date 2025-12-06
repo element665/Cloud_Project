@@ -346,12 +346,8 @@ resource "aws_iam_role_policy_attachment" "lambda_dynamodb_attachment" {
 resource "aws_dynamodb_table" "visitor_count_table" {
   name         = "${var.project_name}-visitor-count"
   billing_mode   = "PAY_PER_REQUEST"
-  
-  key_schema {
-    attribute_name = "id"
-    key_type       = "HASH"
-  }
-
+  hash_key       = "id"
+ 
   attribute {
     name = "id"
     type = "S"

@@ -30,10 +30,31 @@ def dynamodb_table(aws_credentials):
             ProvisionedThroughput={"ReadCapacityUnits": 1, "WriteCapacityUnits": 1},
         )
         yield table
+        
+def test_lambda_handler_initial_invocation(dynamodb_table):
+    """Test the lambda_handler for the very first invocation when no item exists."""
+    table_name = dynamodb_table.name
+
+    with patch.dict(os.environ, {"TABLE_NAME": table_name}):
+        # Call the handler without any pre-existing item
+        response = lambda_handler({}, {})
+        body = json.loads(response["body"])
+
+        assert response["statusCode"] == 200
+        assert "visitor_count" in body
+        assert body["visitor_count"] == 1
+
+        # Verify the item in the mock DynamoDB table
+        table_item = dynamodb_table.get_item(Key={"id": "visitor_count"})
+        assert "Item" in table_item
+        assert table_item["Item"]["visitor_count"] == 1
 
 def test_lambda_handler_success(dynamodb_table):
     """Test the lambda_handler for a successful invocation."""
     table_name = dynamodb_table.name
+    
+    # Pre-populate the table with an initial count
+    dynamodb_table.put_item(Item={"id": "visitor_count", "visitor_count": 5})
 
     with patch.dict(os.environ, {"TABLE_NAME": table_name}):
         # 1. Test the first invocation
@@ -41,7 +62,7 @@ def test_lambda_handler_success(dynamodb_table):
         body1 = json.loads(response1["body"])
 
         assert response1["statusCode"] == 200
-        assert body1["visitor_count"] == 1
+        assert body1["visitor_count"] == 6
         assert response1["headers"]["Access-Control-Allow-Origin"] == "*"
 
         # 2. Test the second invocation to ensure count increments
@@ -49,12 +70,12 @@ def test_lambda_handler_success(dynamodb_table):
         body2 = json.loads(response2["body"])
 
         assert response2["statusCode"] == 200
-        assert body2["visitor_count"] == 2
+        assert body2["visitor_count"] == 7
 
         # 3. Verify the count in the mock DynamoDB table
         table_item = dynamodb_table.get_item(Key={"id": "visitor_count"})
         assert "Item" in table_item
-        assert table_item["Item"]["visitor_count"] == 2
+        assert table_item["Item"]["visitor_count"] == 7
 
 def test_lambda_handler_dynamodb_error():
     """Test the lambda_handler when a DynamoDB ClientError occurs."""

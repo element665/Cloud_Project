@@ -33,9 +33,8 @@ def lambda_handler(event, context):
         # Atomically increment the visitor_count attribute
         response = table.update_item(
             Key={'id': 'visitor_count'},
-            UpdateExpression='SET visitor_count = if_not_exists(visitor_count, :start) + :inc',
+            UpdateExpression='ADD visitor_count :inc',
             ExpressionAttributeValues={
-                ':start': 0,
                 ':inc': 1
             },
             ReturnValues='UPDATED_NEW'
